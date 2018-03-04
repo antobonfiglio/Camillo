@@ -1,0 +1,677 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Edmx Version="3.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <Runtime>
+    <ConceptualModels>
+      <Schema Namespace="Camillo.DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account" customannotation:ClrType="Camillo.Domain.Account, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastLogin" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="Bill" customannotation:ClrType="Camillo.Domain.Bill, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" />
+          <Property Name="TreatmentId" Type="Int64" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IsPayed" Type="Boolean" Nullable="false" />
+          <Property Name="PaymentDate" Type="DateTime" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="Self.Patient_Bills" FromRole="Patient_Bills_Target" ToRole="Patient_Bills_Source" />
+        </EntityType>
+        <EntityType Name="Patient" customannotation:ClrType="Camillo.Domain.Patient, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MedicareNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" />
+          <Property Name="Gender" Type="Self.Gender" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhotoUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Self.PatientStatus" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="Self.Patient_Account" FromRole="Patient_Account_Source" ToRole="Patient_Account_Target" />
+          <NavigationProperty Name="Bills" Relationship="Self.Patient_Bills" FromRole="Patient_Bills_Source" ToRole="Patient_Bills_Target" />
+          <NavigationProperty Name="Diagnosis" Relationship="Self.Diagnosis_Patient" FromRole="Diagnosis_Patient_Target" ToRole="Diagnosis_Patient_Source" />
+          <NavigationProperty Name="MedicalHistories" Relationship="Self.MedicalHistory_Patient" FromRole="MedicalHistory_Patient_Target" ToRole="MedicalHistory_Patient_Source" />
+          <NavigationProperty Name="Treatments" Relationship="Self.Treatment_Patient" FromRole="Treatment_Patient_Target" ToRole="Treatment_Patient_Source" />
+        </EntityType>
+        <EntityType Name="Diagnosis" customannotation:ClrType="Camillo.Domain.Diagnosis, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" />
+          <Property Name="Symptoms" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Severity" Type="Self.Severity" Nullable="false" />
+          <Property Name="StaffId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PatienteId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="Self.Diagnosis_Patient" FromRole="Diagnosis_Patient_Source" ToRole="Diagnosis_Patient_Target" />
+          <NavigationProperty Name="Staff" Relationship="Self.Diagnosis_Staff" FromRole="Diagnosis_Staff_Source" ToRole="Diagnosis_Staff_Target" />
+          <NavigationProperty Name="Treatments" Relationship="Self.Treatment_Diagnosis" FromRole="Treatment_Diagnosis_Target" ToRole="Treatment_Diagnosis_Source" />
+        </EntityType>
+        <EntityType Name="Staff" customannotation:ClrType="Camillo.Domain.Staff, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Role" Type="Self.Role" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="Self.Gender" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Account" Relationship="Self.Staff_Account" FromRole="Staff_Account_Source" ToRole="Staff_Account_Target" />
+        </EntityType>
+        <EntityType Name="Treatment" customannotation:ClrType="Camillo.Domain.Treatment, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DiagnosisId" Type="Int64" Nullable="false" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bills" Relationship="Self.Treatment_Bills" FromRole="Treatment_Bills_Source" ToRole="Treatment_Bills_Target" />
+          <NavigationProperty Name="Diagnosis" Relationship="Self.Treatment_Diagnosis" FromRole="Treatment_Diagnosis_Source" ToRole="Treatment_Diagnosis_Target" />
+          <NavigationProperty Name="Patient" Relationship="Self.Treatment_Patient" FromRole="Treatment_Patient_Source" ToRole="Treatment_Patient_Target" />
+        </EntityType>
+        <EntityType Name="MedicalHistory" customannotation:ClrType="Camillo.Domain.MedicalHistory, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccountId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="Self.MedicalHistory_Patient" FromRole="MedicalHistory_Patient_Source" ToRole="MedicalHistory_Patient_Target" />
+        </EntityType>
+        <EnumType Name="Gender" IsFlags="false" customannotation:ClrType="Camillo.Domain.Enums.Gender, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+          <Member Name="Female" Value="0" />
+          <Member Name="Male" Value="1" />
+        </EnumType>
+        <EnumType Name="PatientStatus" IsFlags="false" customannotation:ClrType="Camillo.Domain.Enums.PatientStatus, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+          <Member Name="None" Value="0" />
+          <Member Name="Admitted" Value="1" />
+          <Member Name="StillPatient" Value="2" />
+          <Member Name="Discharged" Value="3" />
+        </EnumType>
+        <EnumType Name="Severity" IsFlags="false" customannotation:ClrType="Camillo.Domain.Enums.Severity, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+          <Member Name="Red" Value="0" />
+          <Member Name="Orange" Value="1" />
+          <Member Name="Yellow" Value="2" />
+          <Member Name="Green" Value="3" />
+        </EnumType>
+        <EnumType Name="Role" IsFlags="false" customannotation:ClrType="Camillo.Domain.Enums.Role, Camillo.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" UnderlyingType="Int32">
+          <Member Name="Doctor" Value="0" />
+          <Member Name="Nurse" Value="1" />
+          <Member Name="Receptionist" Value="2" />
+        </EnumType>
+        <Association Name="Patient_Account">
+          <End Role="Patient_Account_Source" Type="Self.Patient" Multiplicity="*" />
+          <End Role="Patient_Account_Target" Type="Self.Account" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+        </Association>
+        <Association Name="Patient_Bills">
+          <End Role="Patient_Bills_Source" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Patient_Bills_Target" Type="Self.Bill" Multiplicity="*" />
+        </Association>
+        <Association Name="Diagnosis_Patient">
+          <End Role="Diagnosis_Patient_Source" Type="Self.Diagnosis" Multiplicity="*" />
+          <End Role="Diagnosis_Patient_Target" Type="Self.Patient" Multiplicity="0..1" />
+        </Association>
+        <Association Name="Staff_Account">
+          <End Role="Staff_Account_Source" Type="Self.Staff" Multiplicity="*" />
+          <End Role="Staff_Account_Target" Type="Self.Account" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+        </Association>
+        <Association Name="Diagnosis_Staff">
+          <End Role="Diagnosis_Staff_Source" Type="Self.Diagnosis" Multiplicity="*" />
+          <End Role="Diagnosis_Staff_Target" Type="Self.Staff" Multiplicity="0..1" />
+        </Association>
+        <Association Name="Treatment_Bills">
+          <End Role="Treatment_Bills_Source" Type="Self.Treatment" Multiplicity="0..1" />
+          <End Role="Treatment_Bills_Target" Type="Self.Bill" Multiplicity="*" />
+        </Association>
+        <Association Name="Treatment_Diagnosis">
+          <End Role="Treatment_Diagnosis_Source" Type="Self.Treatment" Multiplicity="*" />
+          <End Role="Treatment_Diagnosis_Target" Type="Self.Diagnosis" Multiplicity="0..1" />
+        </Association>
+        <Association Name="Treatment_Patient">
+          <End Role="Treatment_Patient_Source" Type="Self.Treatment" Multiplicity="*" />
+          <End Role="Treatment_Patient_Target" Type="Self.Patient" Multiplicity="0..1" />
+        </Association>
+        <Association Name="MedicalHistory_Patient">
+          <End Role="MedicalHistory_Patient_Source" Type="Self.MedicalHistory" Multiplicity="*" />
+          <End Role="MedicalHistory_Patient_Target" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="MedicalHistory_Patient_Target">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="MedicalHistory_Patient_Source">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CamilloContext" customannotation:UseClrTypes="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="Bills" EntityType="Self.Bill" />
+          <EntitySet Name="Patients" EntityType="Self.Patient" />
+          <EntitySet Name="Diagnoses" EntityType="Self.Diagnosis" />
+          <EntitySet Name="Staffs" EntityType="Self.Staff" />
+          <EntitySet Name="Treatments" EntityType="Self.Treatment" />
+          <EntitySet Name="MedicalHistories" EntityType="Self.MedicalHistory" />
+          <AssociationSet Name="Patient_Account" Association="Self.Patient_Account">
+            <End Role="Patient_Account_Source" EntitySet="Patients" />
+            <End Role="Patient_Account_Target" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="Patient_Bills" Association="Self.Patient_Bills">
+            <End Role="Patient_Bills_Source" EntitySet="Patients" />
+            <End Role="Patient_Bills_Target" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="Diagnosis_Patient" Association="Self.Diagnosis_Patient">
+            <End Role="Diagnosis_Patient_Source" EntitySet="Diagnoses" />
+            <End Role="Diagnosis_Patient_Target" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="Staff_Account" Association="Self.Staff_Account">
+            <End Role="Staff_Account_Source" EntitySet="Staffs" />
+            <End Role="Staff_Account_Target" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="Diagnosis_Staff" Association="Self.Diagnosis_Staff">
+            <End Role="Diagnosis_Staff_Source" EntitySet="Diagnoses" />
+            <End Role="Diagnosis_Staff_Target" EntitySet="Staffs" />
+          </AssociationSet>
+          <AssociationSet Name="Treatment_Bills" Association="Self.Treatment_Bills">
+            <End Role="Treatment_Bills_Source" EntitySet="Treatments" />
+            <End Role="Treatment_Bills_Target" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="Treatment_Diagnosis" Association="Self.Treatment_Diagnosis">
+            <End Role="Treatment_Diagnosis_Source" EntitySet="Treatments" />
+            <End Role="Treatment_Diagnosis_Target" EntitySet="Diagnoses" />
+          </AssociationSet>
+          <AssociationSet Name="Treatment_Patient" Association="Self.Treatment_Patient">
+            <End Role="Treatment_Patient_Source" EntitySet="Treatments" />
+            <End Role="Treatment_Patient_Target" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="MedicalHistory_Patient" Association="Self.MedicalHistory_Patient">
+            <End Role="MedicalHistory_Patient_Source" EntitySet="MedicalHistories" />
+            <End Role="MedicalHistory_Patient_Target" EntitySet="Patients" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </ConceptualModels>
+    <Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CodeFirstDatabase" CdmEntityContainer="CamilloContext">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="Camillo.DataModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bills">
+            <EntityTypeMapping TypeName="Camillo.DataModel.Bill">
+              <MappingFragment StoreEntitySet="Bill">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="TreatmentId" ColumnName="TreatmentId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="IsPayed" ColumnName="IsPayed" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="Camillo.DataModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MedicareNumber" ColumnName="MedicareNumber" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="PhotoUrl" ColumnName="PhotoUrl" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diagnoses">
+            <EntityTypeMapping TypeName="Camillo.DataModel.Diagnosis">
+              <MappingFragment StoreEntitySet="Diagnosis">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Symptoms" ColumnName="Symptoms" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="PatienteId" ColumnName="PatienteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staffs">
+            <EntityTypeMapping TypeName="Camillo.DataModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Treatments">
+            <EntityTypeMapping TypeName="Camillo.DataModel.Treatment">
+              <MappingFragment StoreEntitySet="Treatment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DiagnosisId" ColumnName="DiagnosisId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicalHistories">
+            <EntityTypeMapping TypeName="Camillo.DataModel.MedicalHistory">
+              <MappingFragment StoreEntitySet="MedicalHistory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Patient_Account" TypeName="Camillo.DataModel.Patient_Account" StoreEntitySet="Patient">
+            <EndProperty Name="Patient_Account_Target">
+              <ScalarProperty Name="Id" ColumnName="Account_Id" />
+            </EndProperty>
+            <EndProperty Name="Patient_Account_Source">
+              <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Patient_Bills" TypeName="Camillo.DataModel.Patient_Bills" StoreEntitySet="Bill">
+            <EndProperty Name="Patient_Bills_Source">
+              <ScalarProperty Name="AccountId" ColumnName="Patient_AccountId" />
+            </EndProperty>
+            <EndProperty Name="Patient_Bills_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Patient_AccountId" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Diagnosis_Patient" TypeName="Camillo.DataModel.Diagnosis_Patient" StoreEntitySet="Diagnosis">
+            <EndProperty Name="Diagnosis_Patient_Target">
+              <ScalarProperty Name="AccountId" ColumnName="Patient_AccountId" />
+            </EndProperty>
+            <EndProperty Name="Diagnosis_Patient_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Patient_AccountId" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Staff_Account" TypeName="Camillo.DataModel.Staff_Account" StoreEntitySet="Staff">
+            <EndProperty Name="Staff_Account_Target">
+              <ScalarProperty Name="Id" ColumnName="Account_Id" />
+            </EndProperty>
+            <EndProperty Name="Staff_Account_Source">
+              <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Diagnosis_Staff" TypeName="Camillo.DataModel.Diagnosis_Staff" StoreEntitySet="Diagnosis">
+            <EndProperty Name="Diagnosis_Staff_Target">
+              <ScalarProperty Name="AccountId" ColumnName="Staff_AccountId" />
+            </EndProperty>
+            <EndProperty Name="Diagnosis_Staff_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Staff_AccountId" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Treatment_Bills" TypeName="Camillo.DataModel.Treatment_Bills" StoreEntitySet="Bill">
+            <EndProperty Name="Treatment_Bills_Source">
+              <ScalarProperty Name="Id" ColumnName="Treatment_Id" />
+            </EndProperty>
+            <EndProperty Name="Treatment_Bills_Target">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Treatment_Id" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Treatment_Diagnosis" TypeName="Camillo.DataModel.Treatment_Diagnosis" StoreEntitySet="Treatment">
+            <EndProperty Name="Treatment_Diagnosis_Target">
+              <ScalarProperty Name="Id" ColumnName="Diagnosis_Id" />
+            </EndProperty>
+            <EndProperty Name="Treatment_Diagnosis_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Diagnosis_Id" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Treatment_Patient" TypeName="Camillo.DataModel.Treatment_Patient" StoreEntitySet="Treatment">
+            <EndProperty Name="Treatment_Patient_Target">
+              <ScalarProperty Name="AccountId" ColumnName="Patient_AccountId" />
+            </EndProperty>
+            <EndProperty Name="Treatment_Patient_Source">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Patient_AccountId" />
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </Mappings>
+    <StorageModels>
+      <Schema Namespace="CodeFirstDatabaseSchema" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="LastLogin" Type="datetime" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="TreatmentId" Type="bigint" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IsPayed" Type="bit" Nullable="false" />
+          <Property Name="PaymentDate" Type="datetime" Nullable="true" />
+          <Property Name="PaymentMethod" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="Patient_AccountId" Type="int" customannotation:Index="{ Name: IX_Patient_AccountId, Order: 0 }" Nullable="true" />
+          <Property Name="Treatment_Id" Type="int" customannotation:Index="{ Name: IX_Treatment_Id, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="LastName" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="MedicareNumber" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="BirthDate" Type="datetime" Nullable="false" />
+          <Property Name="Gender" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Telephone" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="PhotoUrl" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Account_Id" Type="int" customannotation:Index="{ Name: IX_Account_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Diagnosis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="Symptoms" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Severity" Type="int" Nullable="false" />
+          <Property Name="StaffId" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="PatienteId" Type="int" Nullable="false" />
+          <Property Name="Patient_AccountId" Type="int" customannotation:Index="{ Name: IX_Patient_AccountId, Order: 0 }" Nullable="true" />
+          <Property Name="Staff_AccountId" Type="int" customannotation:Index="{ Name: IX_Staff_AccountId, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="LastName" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Gender" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Telephone" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Department" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="Account_Id" Type="int" customannotation:Index="{ Name: IX_Account_Id, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Treatment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="DiagnosisId" Type="bigint" Nullable="false" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="Diagnosis_Id" Type="int" customannotation:Index="{ Name: IX_Diagnosis_Id, Order: 0 }" Nullable="true" />
+          <Property Name="Patient_AccountId" Type="int" customannotation:Index="{ Name: IX_Patient_AccountId, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <EntityType Name="MedicalHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" Nullable="true" />
+          <Property Name="AccountId" Type="int" customannotation:Index="{ Name: IX_AccountId, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <Association Name="Patient_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Patient" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="Account_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Patient_Bills">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="Patient_AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Diagnosis_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Diagnosis">
+              <PropertyRef Name="Patient_AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Staff_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="Account_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Diagnosis_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Diagnosis">
+              <PropertyRef Name="Staff_AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Treatment_Bills">
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="Treatment_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Treatment_Diagnosis">
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="0..1" />
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnosis">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="Diagnosis_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Treatment_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Treatment" Type="Self.Treatment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="Patient_AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MedicalHistory_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MedicalHistory" Type="Self.MedicalHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="MedicalHistory">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CodeFirstDatabase">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" Table="Accounts" />
+          <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" Table="Bills" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" Table="Patients" />
+          <EntitySet Name="Diagnosis" EntityType="Self.Diagnosis" Schema="dbo" Table="Diagnosis" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" Table="Staffs" />
+          <EntitySet Name="Treatment" EntityType="Self.Treatment" Schema="dbo" Table="Treatments" />
+          <EntitySet Name="MedicalHistory" EntityType="Self.MedicalHistory" Schema="dbo" Table="MedicalHistories" />
+          <AssociationSet Name="Patient_Account" Association="Self.Patient_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Patient" EntitySet="Patient" />
+          </AssociationSet>
+          <AssociationSet Name="Patient_Bills" Association="Self.Patient_Bills">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Bill" EntitySet="Bill" />
+          </AssociationSet>
+          <AssociationSet Name="Diagnosis_Patient" Association="Self.Diagnosis_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="Staff_Account" Association="Self.Staff_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
+          <AssociationSet Name="Diagnosis_Staff" Association="Self.Diagnosis_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="Treatment_Bills" Association="Self.Treatment_Bills">
+            <End Role="Treatment" EntitySet="Treatment" />
+            <End Role="Bill" EntitySet="Bill" />
+          </AssociationSet>
+          <AssociationSet Name="Treatment_Diagnosis" Association="Self.Treatment_Diagnosis">
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+            <End Role="Treatment" EntitySet="Treatment" />
+          </AssociationSet>
+          <AssociationSet Name="Treatment_Patient" Association="Self.Treatment_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Treatment" EntitySet="Treatment" />
+          </AssociationSet>
+          <AssociationSet Name="MedicalHistory_Patient" Association="Self.MedicalHistory_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="MedicalHistory" EntitySet="MedicalHistory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </StorageModels>
+  </Runtime>
+  <Designer>
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="ProcessDependentTemplatesOnSave" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <Diagrams >
+      <Diagram DiagramId="2f8cf2ae717d417f91d76642aa207cdd" Name="Diagram1">
+        <EntityTypeShape EntityType="Camillo.DataModel.Account" Width="1.5" PointX="9" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Camillo.DataModel.Bill" Width="1.5" PointX="3.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Camillo.DataModel.Patient" Width="1.5" PointX="6.375" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Camillo.DataModel.Diagnosis" Width="1.5" PointX="1.125" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Camillo.DataModel.Staff" Width="1.5" PointX="5.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Camillo.DataModel.Treatment" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Camillo.DataModel.MedicalHistory" Width="1.5" PointX="6.125" PointY="11.5" IsExpanded="true" />
+        <AssociationConnector Association="Camillo.DataModel.Patient_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="Camillo.DataModel.Patient_Bills" ManuallyRouted="false" />
+        <AssociationConnector Association="Camillo.DataModel.Diagnosis_Patient" ManuallyRouted="false" />
+        <AssociationConnector Association="Camillo.DataModel.Staff_Account" ManuallyRouted="false" />
+        <AssociationConnector Association="Camillo.DataModel.Diagnosis_Staff" ManuallyRouted="false" />
+        <AssociationConnector Association="Camillo.DataModel.Treatment_Bills" ManuallyRouted="false" />
+        <AssociationConnector Association="Camillo.DataModel.Treatment_Diagnosis" ManuallyRouted="false" />
+        <AssociationConnector Association="Camillo.DataModel.Treatment_Patient" ManuallyRouted="false" />
+        <AssociationConnector Association="Camillo.DataModel.MedicalHistory_Patient" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</Edmx>
