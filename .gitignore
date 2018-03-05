@@ -240,3 +240,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Camillo/Properties/PublishProfiles/camilloapi - FTP.pubxml
+/Camillo/Properties/PublishProfiles/camilloapi - Web Deploy.pubxml

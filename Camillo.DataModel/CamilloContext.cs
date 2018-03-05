@@ -5,6 +5,13 @@ namespace Camillo.DataModel
 {
     public class CamilloContext : DbContext
     {
+        public CamilloContext(string nameOrConnectionString)
+            : base(nameOrConnectionString)
+        { }
+
+        public CamilloContext()
+            : base("name=CamilloDb")
+        { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

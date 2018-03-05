@@ -79,7 +79,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Camillo-DomainModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="App.Config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
