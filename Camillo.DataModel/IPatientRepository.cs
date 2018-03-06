@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace Camillo.DataModel
         bool Add(Patient entry);
 
         bool Update(Patient entry);
+
+        bool Update(Patient entity, params Expression<Func<Patient, object>>[] properties);
 
         bool DeletePatient(int id);
 

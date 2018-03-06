@@ -157,7 +157,15 @@ namespace Camillo.Controllers
                         MedicareNumber = model.MedicareNumber
                     };
 
-                    if (_repository.Update(entity))
+                    if (_repository.Update(entity, e => e.FirstName,
+                                                   e => e.FirstName,
+                                                   e => e.LastName,
+                                                   e => e.BirthDate,
+                                                   e => e.Status,
+                                                   e => e.Gender,
+                                                   e => e.Telephone,
+                                                   e => e.Address,
+                                                   e => e.MedicareNumber))
                     {
                         _repository.Commit();
                     }
