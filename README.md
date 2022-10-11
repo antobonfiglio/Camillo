@@ -1,7 +1,6 @@
 Camillo Web API
 =============
 
-DEMO application 
+Demo Angular based ( Health management system ) backend. 
 
-Camillo ( Patient Management System ) backend.
 
